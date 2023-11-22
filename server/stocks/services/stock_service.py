@@ -10,5 +10,7 @@ class StockService:
         return cls._instance
     
     def GetStocks(self):
-        repo = StockRepository()
-        return repo.GetStocks()
+        return StockRepository.GetStocks()
+    
+    def GetStock(self, id):
+        return StockRepository.GetStock(id=id)
