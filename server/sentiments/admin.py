@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from sentiments.models import Sentiment
+
+admin.site.register(Sentiment)

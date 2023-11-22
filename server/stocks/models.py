@@ -11,6 +11,7 @@ class Stock(TimeStampedModel):
         price (DecimalField): 현재 주식 가격
         created_at (DateTimeField): 등록 일자
         modified_at (DateTimeField): 수정 일자
+        description (TextField): 종목 설명
     """
     code = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=255)
