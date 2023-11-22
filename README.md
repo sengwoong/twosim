@@ -43,4 +43,4 @@ Ref: Comments.sentiment_id - Sentiments.id
 ```
 
 * ERD
-  ![erd](.\docs\media\erd.JPG)
+  ![erd](./docs/media/erd.JPG)
