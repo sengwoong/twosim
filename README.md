@@ -5,8 +5,9 @@
 * 일정
   * 화 : 컨셉
   * 수 : ERD, 
-  * 목 : Model, Swagger, 구현
-
+  * 목 : Model, Swagger, 기본 구현
+  * 금 : Task 추가,
+  
 * DBML
 
 ```
@@ -43,4 +44,5 @@ Ref: Comments.sentiment_id - Sentiments.id
 ```
 
 * ERD
+
   ![erd](./docs/media/erd.JPG)
