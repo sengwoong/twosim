@@ -35,7 +35,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('stocks/', include('stocks.urls'))
+    path('stocks/', include('stocks.urls')),
+    path('comments/', include('comments.urls'))
 ]
 
 # swagger

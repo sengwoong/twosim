@@ -1,3 +1,4 @@
+from turtle import pos
 from comments.models import Comment
 class CommentRepository:
     @staticmethod
@@ -13,3 +14,19 @@ class CommentRepository:
         """
         comments = Comment.objects.filter(stock_id=stock_id)
         return comments
+    
+    @staticmethod
+    def CreateComment(self, stock, post_id, title, content):
+        comment =Comment(
+            title=title,
+            content=content,
+            post_id=post_id,
+            sentiment=None,
+            stock=stock
+        )
+        comment.save()
+        
+        if comment.id is None:
+            return False
+        
+        return True

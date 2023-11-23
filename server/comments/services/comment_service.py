@@ -13,3 +13,6 @@ class CommentService:
 
     def GetCommentsByStockID(self, stock_id):
         return CommentRepository.GetCommentsByStockID(stock_id=stock_id)
+    
+    def CreateComment(self, stock, post_id, title, content):
+        return CommentRepository.CreateComment(stock=stock, post_id=post_id, title=title, content=content)
