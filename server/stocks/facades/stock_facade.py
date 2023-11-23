@@ -7,3 +7,6 @@ class StockFacade:
     
     def GetStock(code):
         return StockService().GetStock(code=code)
+    
+    def CreateStock(code, name, price, description):
+        return StockService().CreateStock(code, name, price, description)

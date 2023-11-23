@@ -7,6 +7,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg  import openapi
 from rest_framework.decorators import action
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from comments.dto.serializer.comment_serializer import CommentSerializer
 from comments.facades.comment_facade import CommentFacade
@@ -14,6 +15,19 @@ from comments.facades.comment_facade import CommentFacade
 class CommentController(viewsets.ViewSet):
     http_method_names = ['post', 'get']
     
+    def get_permissions(self):
+        # create 메서드에는 IsAuthenticated 권한 적용
+        if self.action == 'create':
+            return [IsAuthenticated()]
+        
+        # list 메서드에는 권한 필요 없음
+        elif self.action == 'list':
+            return [AllowAny()]
+
+        # 기타 경우에는 기본 권한 적용
+        else:
+            return [IsAuthenticated()]
+        
     @swagger_auto_schema(
         operation_description="종토방 댓글을 저장합니다.",
         request_body=CommentSerializer,

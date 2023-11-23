@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto my-8">
+    <h2>Login</h2>
+    <form id="login-form" hx-boost="false" hx-post="http://localhost:8000/user/token/" hx-headers='{"Content-Type": "application/json"}' hx-ext="json-enc" hx-swap="none" hx-on::after-request="LoginCallback(event)">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit" hx-target="#login-form">Login</button>
+    </form>
+</div>
+<script>
+    document.body.addEventListener('htmx:configRequest', function(event) {
+        event.detail.headers = {}
+        event.detail.headers['Content-Type'] = "application/json"
+    });
+
+    async function LoginCallback(event) {
+        console.log(event)
+        status = event.detail.xhr.status
+        let response = JSON.parse(event.detail.xhr.response);
+        console.log(status)
+        if (status == 200) {
+            console.log(response)
+            localStorage.setItem('access', response.access);
+            document.cookie = `refresh_token=${response.refresh}; Secure; HttpOnly; SameSite=None`;
+            window.location.href = '/';
+        } else {
+            Modal.error({
+                title: '로그인 실패',
+                content: '아이디 또는 비밀번호를 확인해주세요',
+            });
+        }
+        
+    }
+    </script>
+{% endblock %}

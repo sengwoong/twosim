@@ -9,5 +9,6 @@ class StockSerializer(serializers.ModelSerializer):
         fields = [
             'code', 
             'name', 
-            'price'
+            'price',
+            'description'
         ]

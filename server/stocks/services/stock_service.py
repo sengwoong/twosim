@@ -14,3 +14,6 @@ class StockService:
     
     def GetStock(self, code):
         return StockRepository.GetStock(code=code)
+    
+    def CreateStock(self, code, name, price, description):
+        return StockRepository().CreateStock(code, name, price, description)
