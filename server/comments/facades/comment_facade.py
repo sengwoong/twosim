@@ -1,11 +1,10 @@
-from comment_service import CommentService
-from crawl_service import CrawlService
 from stocks.facades.stock_facade import StockFacade
+from comments.services.crawl_service import CrawlService
 
 class CommentFacade:
     @staticmethod
     def UpdateComment(stock_id):
-        comments = CrawlService().CrawlNaverFinance(stock_id)
+        comments = CrawlService.CrawlNaverFinance(stock_id)
 
         for comment in comments:
             CommentFacade.CreateComment(stock_id=stock_id, comment=comment)

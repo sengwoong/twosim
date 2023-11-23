@@ -11,7 +11,6 @@ from stocks.facades.stock_facade import StockFacade
 class StockController(viewsets.ViewSet):
     http_method_names = ['get']
     serializer_class = StockSerializer
-    # queryset = Stock.objects.all()
 
     @swagger_auto_schema(
         operation_description="주식 종목 리스트를 조회합니다",
