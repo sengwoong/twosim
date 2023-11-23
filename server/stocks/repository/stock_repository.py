@@ -7,5 +7,5 @@ class StockRepository:
         return Stock.objects.all()
     
     @staticmethod
-    def GetStock(id):
-        return Stock.objects.get(id=id)
+    def GetStock(code):
+        return Stock.objects.get(code=code)

@@ -1,5 +1,5 @@
 from comments.models import Comment
-from server.comments.repository.comment_repository import CommentRepository
+from comments.repository.comment_repository import CommentRepository
 
 
 class CommentService:

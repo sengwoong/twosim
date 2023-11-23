@@ -5,5 +5,5 @@ class StockFacade:
     def GetStockList():
         return StockService().GetStocks()
     
-    def GetStock(id):
-        return StockService().GetStock(id=id)
+    def GetStock(code):
+        return StockService().GetStock(code=code)

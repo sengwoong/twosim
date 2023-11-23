@@ -12,5 +12,5 @@ class StockService:
     def GetStocks(self):
         return StockRepository.GetStocks()
     
-    def GetStock(self, id):
-        return StockRepository.GetStock(id=id)
+    def GetStock(self, code):
+        return StockRepository.GetStock(code=code)
