@@ -14,11 +14,6 @@
     </form>
 </div>
 <script>
-    document.body.addEventListener('htmx:configRequest', function(event) {
-        event.detail.headers = {}
-        event.detail.headers['Content-Type'] = "application/json"
-    });
-
     async function LoginCallback(event) {
         console.log(event)
         status = event.detail.xhr.status
@@ -26,16 +21,12 @@
         console.log(status)
         if (status == 200) {
             console.log(response)
-            localStorage.setItem('access', response.access);
-            document.cookie = `refresh_token=${response.refresh}; Secure; HttpOnly; SameSite=None`;
+            localStorage.setItem('access_token', response.access);
+            // 권장되지 않음.
+            localStorage.setItem('refresh_token', response.refresh);
+            // document.cookie = `refresh_token=${response.refresh}; Secure; HttpOnly; SameSite=None`;
             window.location.href = '/';
-        } else {
-            Modal.error({
-                title: '로그인 실패',
-                content: '아이디 또는 비밀번호를 확인해주세요',
-            });
         }
-        
     }
     </script>
 {% endblock %}

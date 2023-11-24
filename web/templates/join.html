@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mx-auto my-8">
+    <h2>Join</h2>
+    <form id="join-form" hx-post="http://localhost:8000/join/" hx-headers='{"Content-Type": "application/json"}' hx-ext="json-enc" hx-swap="none" hx-on::after-request="JoinCallback(event)">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password 1:</label>
+        <input type="password" id="password1" name="password1" required>
+        <br>
+        <label for="password">Password 2:</label>
+        <input type="password" id="password2" name="password2" required>
+        <br>
+        <button type="submit" hx-target="#join-form">Join</button>
+    </form>
+</div>
+<script>
+    async function JoinCallback(event) {
+        status = event.detail.xhr.status
+        console.log(status)
+        if (status == 200 || status == 204) {
+            window.location.href = '/';
+        }
+    }
+    </script>
+{% endblock %}

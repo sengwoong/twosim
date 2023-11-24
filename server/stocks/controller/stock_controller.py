@@ -31,7 +31,7 @@ class StockController(viewsets.ViewSet):
             stocks = StockFacade().GetStockList()
         except Exception as e:
             return Response(status=status.HTTP_404_NOT_FOUND, data={})
-        print(stocks)
+        
         serializer = StockSerializer(stocks, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
     

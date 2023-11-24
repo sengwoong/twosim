@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div hx-post="http://localhost:8000/logout/"
+    hx-trigger="load"
+    hx-ext="json-enc"
+    hx-swap="none"
+    hx-on::after-request="handleLogout(event)"
+    hx-vals='js:{refresh_token: localStorage.refresh_token}'>
+</div>
+</div>
+<script>
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            console.log(cookie)
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return '';
+    }
+
+    async function handleLogout(event) {
+        console.log(event)
+        status = event.detail.xhr.status
+        let response = JSON.parse(event.detail.xhr.response);
+        console.log(status)
+        if (status == 200) {
+            console.log(response)
+            localStorage.setItem('access_token', '');
+            // 권장되지 않음.
+            localStorage.setItem('refresh_token', '');
+            // document.cookie = `refresh_token=''; Secure; HttpOnly; SameSite=None`;
+            window.location.href = '/';
+        } else {
+            window.location.href = '/';
+        }
+    }
+    </script>
+{% endblock %}

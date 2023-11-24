@@ -12,23 +12,59 @@
     <!-- Header-->
     <header class="bg-blue-500 text-white py-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">주식 커뮤니티</h1>
-            
-            <div id="user-nav">
+            <div>
+                <h1 class="text-2xl font-bold">Twosim</h1>
+            </div>
+            <nav class="flex items-center space-x-4">
                 <!-- 로그인 사용자 정보가 동적으로 들어갈 곳 -->
-                {% if user.is_authenticated %}
-                <p class="mr-4">${request.username}</p>
-                <a href="#" onclick="logout()">로그아웃</a>
-                {% else %}
-                <a href="login/">로그인</a>
-                {% endif %}   
-            </div>
-    
-            <div class="flex items-center space-x-4">
+                <div id="user-info" 
+                    hx-get="http://localhost:8000/users/my_info/" 
+                    hx-trigger="load"
+                    hx-ext="json-enc"
+                    hx-swap="none"
+                    hx-on::after-request="handleUserInfo(event)"
+                    >
+                </div>
+                <script>
+                    async function handleUserInfo(event) {
+                        console.log(event)
+                        status = event.detail.xhr.status
+                        let response = JSON.parse(event.detail.xhr.response);
+                        console.log(status)
+
+                        const userInfo = response;
+                        const userInfoDiv = document.getElementById('user-info');   
+                        if (status == 200) {
+                            userInfoDiv.outerHTML = `
+                                <h2>Username: ${userInfo.username}</h2>
+                                <p>Refresh Count: ${userInfo.refresh_count}</p>
+                                <a href="/logout/" class="hover:underline">로그아웃</a>
+                            `;
+                        }else{
+                            userInfoDiv.outerHTML = `
+                                <a href="/login/" class="hover:underline">로그인</a>
+                                <a href="/join/" class="hover:underline">회원가입</a>
+                            `;
+                        }
+                        
+                    }
+
+                    function getAccessToken() {
+                        return localStorage.getItem('access_token') || '';
+                    }
+
+                    document.body.addEventListener('htmx:configRequest', function(event) {
+                        event.detail.headers = {}
+                        event.detail.headers['Content-Type'] = "application/json"
+                        const access_token = getAccessToken()
+                        
+                        if(access_token !== ''){
+                            event.detail.headers['Authorization'] = "Bearer " + access_token
+                        }                        
+                    });
+                </script>
                 <a href="/" class="hover:underline">홈</a>
-                <a href="#" class="hover:underline">최근 업데이트</a>
-                <a href="#" class="hover:underline">커뮤니티</a>
-            </div>
+            </nav>
         </div>
     </header>
     <!-- Page content-->
