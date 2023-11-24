@@ -1,9 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mx-auto my-8">
-    <h1 class="text-3xl font-bold mb-6">최근 종목</h1>
-        <div id="stock-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <h1 class="text-3xl font-bold mb-6"></h1>
+        <div id="stock-cards" class="flex flex-wrap gap-4 justify-center p-4">
             <!-- 동적으로 추가될 곳 -->
         </div>
+        
+        <div id="user-info" 
+            hx-get="http://127.0.0.1:8000/stocks/" 
+            hx-trigger="load"
+            hx-ext="json-enc"
+            hx-swap="none"
+            hx-on::after-request="handleStocks(event)">
+        </div>
+        <script>
+            async function handleStocks(event) {
+                const cardDiv = document.getElementById('stock-cards');   
+                if (event.detail.xhr.status == 200) {
+                    let response = JSON.parse(event.detail.xhr.response);
+                    response.forEach(item => {
+                        const card = document.createElement('a');
+                        // card.setAttribute('href', "http://127.0.0.1:8000/stocks/");
+                        card.className += 'w-72 bg-gray-100 border border-gray-300 rounded p-4 hover:text-slate-50 hover:bg-slate-950'
+                        card.innerHTML = `
+                        <h2>${item.name}(${item.code})</h2>
+                        <p>Price: ${item.price}</p>
+                        `;
+                        cardDiv.appendChild(card);
+                    });
+                }
+            }
+
+            function getAccessToken() {
+                return localStorage.getItem('access_token') || '';
+            }
+
+            document.body.addEventListener('htmx:configRequest', function(event) {
+                event.detail.headers = {}
+                event.detail.headers['Content-Type'] = "application/json"
+                const access_token = getAccessToken()
+                
+                if(access_token !== ''){
+                    event.detail.headers['Authorization'] = "Bearer " + access_token
+                }                        
+            });
+        </script>
 </div>
 {% endblock %}
