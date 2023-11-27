@@ -207,3 +207,13 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 SITE_ID = 1
 REST_USE_JWT = True
 ACCOUNT_EMAIL_REQUIRED = False
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        },
+    },
+}
