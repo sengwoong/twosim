@@ -1,3 +1,4 @@
+import re
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,6 +11,7 @@ from stocks.facades.stock_facade import StockFacade
 
 class StockController(viewsets.ViewSet):
     http_method_names = ['get', 'post']
+    lookup_field = 'code'
     serializer_class = StockSerializer
 
     @swagger_auto_schema(
@@ -35,6 +37,34 @@ class StockController(viewsets.ViewSet):
         serializer = StockSerializer(stocks, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
     
+    @swagger_auto_schema(
+        operation_description="개별 주식 정보를 조회합니다.",
+        responses={
+            200: openapi.Response(
+                description="정상 응답"
+            ),
+            400: openapi.Response(
+                description="인자가 정상적이지 않을때"
+            ),
+            404: openapi.Response(
+                description="주식 종목이 존재하지 않을때"
+            ),
+            500: openapi.Response(
+                description="internal Server Error"
+            )
+        }
+    )
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        code = kwargs.get('code')
+        if code is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={})
+        
+        stock = StockFacade.GetStock(code=code)
+        if stock is None:
+            return Response(status=status.HTTP_404_NOT_FOUND, data={})
+        
+        serializer = StockSerializer(stock, many=False)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @swagger_auto_schema(
         operation_description="주식 종목을 생성합니다",
