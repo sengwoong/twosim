@@ -86,7 +86,6 @@ class CustomTokenBlacklistView(TokenBlacklistView):
 
 class CustomRegisterView(RegisterView):
     def create(self, request, *args, **kwargs):
-        print('a')
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
@@ -104,10 +103,5 @@ class CustomRegisterView(RegisterView):
 
         return response
     
-    def perform_create(self, serializer):
-        print('b')
-        return super().perform_create(serializer=serializer)
-    
     def dispatch(self, *args, **kwargs):
-        print('c')
         return super().dispatch(*args, **kwargs)
