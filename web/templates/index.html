@@ -5,7 +5,80 @@
         <div id="stock-cards" class="flex flex-wrap gap-4 justify-center p-4">
             <!-- 동적으로 추가될 곳 -->
         </div>
-        
+        <!-- 주식 모달 -->
+        <div id="stock_modal" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white p-8 rounded shadow-md w-10/12 flex flex-col">
+
+                <!-- 종목 명 -->
+                <div class="mb-4 text-center">
+                    <p id="stock_name" class="text-xl font-semibold">종목 명</p>
+                </div>
+
+                
+                <div class="flex mb-4 m-0 p-0">
+                    <!-- 종목 정보(종목 가격, 종목 코드, 종목 설명) -->
+                    <div class="w-1/2">
+                        <div class="pl-2">
+                            <div class="bg-gray-200 p-4 mt-4 mr-8 rounded">
+                                <p class="font-semibold">종목 가격</p>
+                                <p id="stock_price">가격 정보</p>
+                            </div>
+                            <div class="bg-gray-200 p-4 mt-4 mr-8 rounded">
+                                <p class="font-semibold">종목 코드</p>
+                                <p id="stock_code">종목 코드</p>
+                            </div>
+                            <div class="bg-gray-200 p-4 mt-4 mr-8 rounded">
+                                <p class="font-semibold">종목 설명</p>
+                                <p id="stock_desc">종목 설명</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 종토방 댓글 영역 -->
+                    <div class="w-1/2">
+                        <!-- 종토방 댓글 라벨 -->
+                        <div class="m-0 text-center">
+                            <p class="text-lg font-semibold">종토방 댓글</p>
+                        </div>
+                        <div class="flex m-0 t-0">
+                        <!-- 센티멘탈 테이블 -->
+                            <div id="comment_table"class="mt-4 w-full">
+                                <table class="table-auto w-full">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-4 py-2">제목</th>
+                                            <th class="px-4 py-2">투자 심리</th>
+                                            <th class="px-4 py-2">분석</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="comment_table_body">
+                                        <!-- 데이터 추가 -->
+                                        <tr>
+                                            <!-- <td class="border px-4 py-2">데이터1</td>
+                                            <td class="border px-4 py-2">데이터2</td>
+                                            <td class="border px-4 py-2">데이터3</td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- <div class="m-0 text-center">
+                            <button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded mx-2 my-2" onclick="closeModal()">
+                                새로 고침
+                            </button>
+                        </div> -->
+                    </div>
+                </div>
+                
+                <!-- 모달 닫기 버튼 -->
+                <div class="flex justify-center mt-4">
+                    
+                    <button class="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded mx-2" onclick="closeModal()">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div id="user-info" 
             hx-get="http://127.0.0.1:8000/stocks/" 
             hx-trigger="load"
@@ -20,13 +93,72 @@
                     let response = JSON.parse(event.detail.xhr.response);
                     response.forEach(item => {
                         const card = document.createElement('a');
-                        // card.setAttribute('href', "http://127.0.0.1:8000/stocks/");
                         card.className += 'w-72 bg-gray-100 border border-gray-300 rounded p-4 hover:text-slate-50 hover:bg-slate-950'
+                        card.setAttribute('hx-get', `http://127.0.0.1:8000/stocks/${item.code}/`);
+                        card.setAttribute('hx-trigger', 'click');
+                        card.setAttribute('hx-ext', 'json-enc');
+                        card.setAttribute('hx-swap', 'none');
+                        card.setAttribute('hx-on::after-request', 'handleStockInfo(event)');
+
                         card.innerHTML = `
                         <h2>${item.name}(${item.code})</h2>
                         <p>Price: ${item.price}</p>
                         `;
+                        
                         cardDiv.appendChild(card);
+                        htmx.process(card);
+                    });
+                }
+            }
+
+            function handleStockInfo(event){
+                if (event.detail.xhr.status == 200) {
+                    const stock = JSON.parse(event.detail.xhr.response);
+                    const stock_name = document.getElementById('stock_name');  
+                    const stock_price = document.getElementById('stock_price');  
+                    const stock_code = document.getElementById('stock_code');  
+                    const stock_desc = document.getElementById('stock_desc');  
+                    const comment_table = document.getElementById('comment_table');
+
+                    stock_name.innerText = stock.name
+                    stock_price.innerText = stock.price
+                    stock_code.innerText = stock.code
+                    stock_desc.innerText = stock.description
+
+                    comment_table.setAttribute('hx-get', `http://127.0.0.1:8000/comments/${stock.code}/`);
+                    comment_table.setAttribute('hx-trigger', 'load');
+                    comment_table.setAttribute('hx-ext', 'json-enc');
+                    comment_table.setAttribute('hx-swap', 'none');
+                    comment_table.setAttribute('hx-on::after-request', 'handleComments(event)');
+                    htmx.process(comment_table);                    
+                    openModal()
+                }
+            }
+
+            function handleComments(event){
+                if (event.detail.xhr.status == 200) {
+                    const pagination = JSON.parse(event.detail.xhr.response);
+                    const table_body = document.getElementById('comment_table_body');
+                    console.log(pagination)
+                    pagination.results.forEach(item => {
+                        const row = document.createElement('tr');
+                        const title = document.createElement('td');
+                        const sentiment = document.createElement('td');
+                        const analysis = document.createElement('td');
+
+                        title.className += 'border px-4 py-2'
+                        sentiment.className += 'border px-4 py-2'
+                        analysis.className += 'border px-4 py-2'
+
+                        title.innerText = item.title
+                        sentiment.innerText = '분석전'
+                        analysis.innerText = '분석'
+                        row.appendChild(title);
+                        row.appendChild(sentiment);
+                        row.appendChild(analysis);
+                        
+                        table_body.appendChild(row);
+                        // htmx.process(card);
                     });
                 }
             }
@@ -35,15 +167,13 @@
                 return localStorage.getItem('access_token') || '';
             }
 
-            document.body.addEventListener('htmx:configRequest', function(event) {
-                event.detail.headers = {}
-                event.detail.headers['Content-Type'] = "application/json"
-                const access_token = getAccessToken()
-                
-                if(access_token !== ''){
-                    event.detail.headers['Authorization'] = "Bearer " + access_token
-                }                        
-            });
+            function openModal() {
+                document.getElementById('stock_modal').classList.remove('hidden');
+            }
+
+            function closeModal() {
+                document.getElementById('stock_modal').classList.add('hidden');
+            }
         </script>
 </div>
 {% endblock %}
