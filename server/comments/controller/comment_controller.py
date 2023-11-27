@@ -1,6 +1,4 @@
-from tkinter import NO
-from requests import post
-from rest_framework import viewsets
+from rest_framework import viewsets, pagination
 from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
@@ -14,14 +12,16 @@ from comments.facades.comment_facade import CommentFacade
 
 class CommentController(viewsets.ViewSet):
     http_method_names = ['post', 'get']
+    pagination_class = pagination.PageNumberPagination
+    lookup_field = 'stock_code'
     
     def get_permissions(self):
         # create 메서드에는 IsAuthenticated 권한 적용
         if self.action == 'create':
             return [IsAuthenticated()]
         
-        # list 메서드에는 권한 필요 없음
-        elif self.action == 'list':
+        # retrieve 메서드에는 권한 필요 없음
+        elif self.action == 'retrieve':
             return [AllowAny()]
 
         # 기타 경우에는 기본 권한 적용
@@ -30,7 +30,7 @@ class CommentController(viewsets.ViewSet):
         
     @swagger_auto_schema(
         operation_description="종토방 댓글을 저장합니다.",
-        request_body=CommentSerializer,
+        # request_body=CommentSerializer,
         responses={
             200: openapi.Response(
                 description="정상 응답"
@@ -75,3 +75,40 @@ class CommentController(viewsets.ViewSet):
         
         comments = CommentFacade.UpdateComment(stock_code=stock_code)
         return Response(status=status.HTTP_200_OK, data={'comments':comments}) 
+    
+
+    @swagger_auto_schema(
+        operation_description="종토방 댓글을 불러옵니다.",
+        # manual_parameters=[
+        #     openapi.Parameter('stock_code', in_=openapi.IN_QUERY, type=openapi.TYPE_STRING, description='관련 주식 종목 코드'),
+        # ],
+        responses={
+            200: openapi.Response(
+                description="정상 응답"
+            ),
+            404: openapi.Response(
+                description="종목이 존재하지 않을 때"
+            ),
+            500: openapi.Response(
+                description="Internal Server Error"
+            )
+        }
+    )
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        try:
+            stock_code = kwargs.get('stock_code')
+            comments = CommentFacade.GetCommentList(stock_code=stock_code)
+
+            class CustomPagination(pagination.PageNumberPagination):
+                page_size = 10
+                page_size_query_param = 'page_size'
+                max_page_size = 100
+
+            paginator = CustomPagination()
+            result_page = paginator.paginate_queryset(comments, request)
+            serializer = CommentSerializer(result_page, many=True)
+        except Exception as e:
+            return Response(status=status.HTTP_404_NOT_FOUND, data={})
+        
+        return paginator.get_paginated_response(serializer.data)
+

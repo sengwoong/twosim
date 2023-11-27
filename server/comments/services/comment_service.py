@@ -11,8 +11,14 @@ class CommentService:
 
         return cls._instance
 
-    def GetCommentsByStockID(self, stock_id):
-        return CommentRepository.GetCommentsByStockID(stock_id=stock_id)
+    def GetCommentsByStock(self, stock):
+        return CommentRepository.GetCommentsByStock(stock=stock)
     
     def CreateComment(self, stock, post_id, title, content):
         return CommentRepository.CreateComment(stock=stock, post_id=post_id, title=title, content=content)
+    
+    def GetComment(self, id):
+        return CommentRepository().GetComment(id=id)
+    
+    def ConnectSentiment(self, sentiment):
+        return CommentRepository().ConnectSentiment(sentiment)

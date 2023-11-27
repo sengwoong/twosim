@@ -23,3 +23,11 @@ class CommentFacade:
         content = comment['content']
         return CommentService().CreateComment(stock=stock, post_id=post_id, title=title, content=content)
     
+    @staticmethod
+    def GetCommentList(stock_code):
+        stock = StockFacade.GetStock(code=stock_code)
+
+        if stock is None:
+            return None
+        
+        return CommentService().GetCommentsByStock(stock=stock)
