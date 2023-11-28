@@ -1,4 +1,3 @@
-from turtle import pos
 from comments.models import Comment
 
 class CommentRepository:
@@ -46,3 +45,14 @@ class CommentRepository:
         comment.sentiment = sentiment
         comment.save()
         return True
+    
+    @staticmethod
+    def DeleteComment(id):
+        print(id)
+        comment = Comment.objects.filter(id=id)
+        
+        if comment.exists():
+            comment.delete()
+            return True
+        
+        return False

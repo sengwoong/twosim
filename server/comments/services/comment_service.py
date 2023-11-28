@@ -20,5 +20,8 @@ class CommentService:
     def GetComment(self, id):
         return CommentRepository().GetComment(id=id)
     
-    def ConnectSentiment(self, sentiment):
-        return CommentRepository().ConnectSentiment(sentiment)
+    def ConnectSentiment(self, id, sentiment):
+        return CommentRepository().ConnectSentiment(id, sentiment)
+    
+    def DeleteComment(self, id):
+        return CommentRepository().DeleteComment(id=id)

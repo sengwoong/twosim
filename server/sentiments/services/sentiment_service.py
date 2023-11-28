@@ -10,8 +10,8 @@ class SentimentService:
 
         return cls._instance
     
-    def CreateSentiment(self, description):
-        return SentimentRepository().CreateSentiment(description=description)
+    def CreateSentiment(self, description, sentiment_type):
+        return SentimentRepository().CreateSentiment(description=description, sentiment_type=sentiment_type)
     
     def GetSentiment(self, sentiment_id):
         return SentimentRepository().GetSentimentByID(sentiment_id=sentiment_id)

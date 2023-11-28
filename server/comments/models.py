@@ -18,7 +18,7 @@ class Comment(TimeStampedModel):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
     post_id = models.BigIntegerField(null=True)
-    sentiment = models.OneToOneField(Sentiment, on_delete=models.CASCADE,blank=True, null=True)
+    sentiment = models.OneToOneField(Sentiment, on_delete=models.SET_NULL,blank=True, null=True)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
 
     def __str__(self):

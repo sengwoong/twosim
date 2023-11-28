@@ -2,10 +2,14 @@ from sentiments.models import Sentiment
 
 class SentimentRepository:
     @staticmethod
-    def CreateSentiment(description):
+    def CreateSentiment(description, sentiment_type):
         sentiment = Sentiment(
-            description = description
+            description = description,
         )
+        print(sentiment_type)
+        if sentiment_type is not None:
+            sentiment.sentiment_type = sentiment_type
+
         sentiment.save()
 
         if sentiment.id is None:
