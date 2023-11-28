@@ -7,78 +7,130 @@
         </div>
         <!-- 주식 모달 -->
         <div id="stock_modal" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
-            <div class="bg-white p-8 rounded shadow-md w-10/12 flex flex-col">
-
-                <!-- 종목 명 -->
-                <div class="mb-4 text-center">
-                    <p id="stock_name" class="text-xl font-semibold">종목 명</p>
-                </div>
-
-                
-                <div class="flex mb-4 m-0 p-0">
-                    <!-- 종목 정보(종목 가격, 종목 코드, 종목 설명) -->
-                    <div class="w-1/2">
-                        <div class="pl-2">
-                            <div class="bg-gray-200 p-4 mt-4 mr-8 rounded">
-                                <p class="font-semibold">종목 가격</p>
-                                <p id="stock_price">가격 정보</p>
+            <div class="bg-white p-0 m-0 rounded shadow-md w-10/12 flex flex-col">
+                <!-- 주식 정보 -->
+                <div id="stock_info" class="">
+                    <!-- 종목 명 -->
+                    <div class="mb-2 text-center bg-slate-950 text-white p-2 rounded">
+                        <p id="stock_name" class="text-xl font-semibold">종목 명</p>
+                    </div>
+                    <div class="flex mb-4 m-0 p-0 ">
+                        <!-- 종목 정보(종목 가격, 종목 코드, 종목 설명) -->
+                        <div class="w-full">
+                            <div class="flex">
+                                <div class="bg-gray-100 p-4 mt-4 mx-2 rounded w-1/2">
+                                    <p class="font-semibold">종목 코드</p>
+                                    <p id="stock_code">종목 코드</p>
+                                </div>
+                                <div class="bg-gray-100 p-4 mt-4 rounded w-1/2">
+                                    <p class="font-semibold">종목 가격</p>
+                                    <p id="stock_price">가격 정보</p>
+                                </div>
                             </div>
-                            <div class="bg-gray-200 p-4 mt-4 mr-8 rounded">
-                                <p class="font-semibold">종목 코드</p>
-                                <p id="stock_code">종목 코드</p>
-                            </div>
-                            <div class="bg-gray-200 p-4 mt-4 mr-8 rounded">
-                                <p class="font-semibold">종목 설명</p>
-                                <p id="stock_desc">종목 설명</p>
-                            </div>
+                            <div class="">
+                                <div class="bg-gray-100 p-4 mt-4 rounded mx-2">
+                                    <p class="font-semibold">종목 설명</p>
+                                    <p id="stock_desc">종목 설명</p>
+                                </div>
+                            </div> 
                         </div>
                     </div>
-                    <!-- 종토방 댓글 영역 -->
-                    <div class="w-1/2">
-                        <!-- 종토방 댓글 라벨 -->
-                        <div class="m-0 text-center">
-                            <p class="text-lg font-semibold">종토방 댓글</p>
-                        </div>
-                        <div class="flex m-0 t-0">
-                        <!-- 센티멘탈 테이블 -->
-                            <div id="comment_table"class="mt-4 w-full">
-                                <table class="table-auto w-full">
-                                    <thead>
-                                        <tr>
-                                            <th class="px-4 py-2">제목</th>
-                                            <th class="px-4 py-2">투자 심리</th>
-                                            <th class="px-4 py-2">분석</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="comment_table_body">
-                                        <!-- 데이터 추가 -->
-                                        <tr>
-                                            <!-- <td class="border px-4 py-2">데이터1</td>
-                                            <td class="border px-4 py-2">데이터2</td>
-                                            <td class="border px-4 py-2">데이터3</td> -->
-                                        </tr>
-                                    </tbody>
-                                </table>
+                </div>
+                <div class="border border-gray-300 rounded p-0 mt-2">
+                    <div class="flex mb-4 m-0 p-0">
+                        <!-- 종토방 댓글 영역 -->
+                        <div class="w-full">
+                            <!-- 종토방 댓글 라벨 -->
+                            <div class="m-0 text-center bg-slate-950 text-white p-2 rounded">
+                                <p class="text-lg font-semibold">종토방 댓글</p>
                             </div>
+                            <div class="flex m-0 t-0">
+                            <!-- 센티멘탈 테이블 -->
+                                <div id="comment_table"class="mt-4 w-full">
+                                    <table class="table-auto w-full">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-2">제목</th>
+                                                <th class="px-4 py-2">투자 심리</th>
+                                                <th class="px-4 py-2">분석</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="comment_table_body">
+                                            <!-- 데이터 추가 -->
+                                            <tr>
+                                                <!-- <td class="border px-4 py-2">데이터1</td>
+                                                <td class="border px-4 py-2">데이터2</td>
+                                                <td class="border px-4 py-2">데이터3</td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <nav class="flex justify-center mt-2">
+                                        <ul class="flex space-x-2">
+                                            <!-- active bg-blue-400 -->
+                                            <!-- deactive bg-gray-500 -->
+                                            <li>
+                                                <button id="prev-page-btn" class="bg-gray-400 text-white px-4 py-2 rounded-md">이전</button>
+                                            </li>
+                                            <li>
+                                                <button id="next-page-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md">다음</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <!-- <div class="m-0 text-center">
+                                <button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded mx-2 my-2" onclick="closeModal()">
+                                    새로 고침
+                                </button>
+                            </div> -->
                         </div>
-                        <!-- <div class="m-0 text-center">
-                            <button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded mx-2 my-2" onclick="closeModal()">
-                                새로 고침
-                            </button>
-                        </div> -->
                     </div>
                 </div>
-                
                 <!-- 모달 닫기 버튼 -->
                 <div class="flex justify-center mt-4">
-                    
-                    <button class="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded mx-2" onclick="closeModal()">
+                    <button class="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded mx-2 my-2" onclick="closeModal()">
                         닫기
                     </button>
                 </div>
             </div>
         </div>
 
+        <!-- 댓글 모달 -->
+        <div id="comment_modal" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white p-0 m-0 rounded shadow-md w-10/12 flex flex-col">
+                <!-- 댓글 정보 -->
+                <div id="comment-detail" class="">
+                    <!-- 종목 명 -->
+                    <div class="mb-2 text-center bg-slate-950 text-white p-2 rounded">
+                        <p id="comment-stock-name" class="text-xl font-semibold">종목 명</p>
+                    </div>
+                    <div class="flex mb-4 m-0 p-0 ">
+                        <!-- 종목 정보(종목 가격, 종목 코드, 종목 설명) -->
+                        <div class="w-full">
+                            <div class="mb-2">
+                                <div class="p-2 mt-2 rounded mx-2 border slate-950 bg-gray-100 rounded">
+                                    <p id="comment-title" class="font-semibold text-center">제목</p>
+                                </div>
+                                <div class="p-4 mt-0 rounded mx-2 border slate-950 rounded">
+                                    <p id="comment-content" class="text-center">내용</p>
+                                </div>
+                            </div>
+                            <div id="sentiment"class="">
+                                <div class="p-2 mt-2 rounded mx-2 border slate-950 bg-gray-100 rounded">
+                                    <p id="sentiment-title" class="font-semibold text-center">투자 심리</p>
+                                </div>
+                                <div class="p-4 mt-0 rounded mx-2 border slate-950 rounded">
+                                    <p id="sentiment-content" class="px-3">내용</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded mx-2 my-2" onclick="closeCommentModal()">
+                    닫기
+                </button>
+            </div>
+        </div>
         <div id="user-info" 
             hx-get="http://127.0.0.1:8000/stocks/" 
             hx-trigger="load"
@@ -108,25 +160,30 @@
                         cardDiv.appendChild(card);
                         htmx.process(card);
                     });
+                } else{
+                    window.location.href = '/login';
+                    // refresh if has refresh_token
                 }
             }
 
             function handleStockInfo(event){
                 if (event.detail.xhr.status == 200) {
                     const stock = JSON.parse(event.detail.xhr.response);
+                    // console.log(stock)
                     const stock_name = document.getElementById('stock_name');  
                     const stock_price = document.getElementById('stock_price');  
                     const stock_code = document.getElementById('stock_code');  
                     const stock_desc = document.getElementById('stock_desc');  
                     const comment_table = document.getElementById('comment_table');
 
+
                     stock_name.innerText = stock.name
                     stock_price.innerText = stock.price
                     stock_code.innerText = stock.code
                     stock_desc.innerText = stock.description
 
-                    comment_table.setAttribute('hx-get', `http://127.0.0.1:8000/comments/${stock.code}/`);
-                    comment_table.setAttribute('hx-trigger', 'load');
+                    comment_table.setAttribute('hx-get', `http://127.0.0.1:8000/comments/?stock_code=${stock.code}`);
+                    comment_table.setAttribute('hx-trigger', 'intersect');
                     comment_table.setAttribute('hx-ext', 'json-enc');
                     comment_table.setAttribute('hx-swap', 'none');
                     comment_table.setAttribute('hx-on::after-request', 'handleComments(event)');
@@ -139,7 +196,13 @@
                 if (event.detail.xhr.status == 200) {
                     const pagination = JSON.parse(event.detail.xhr.response);
                     const table_body = document.getElementById('comment_table_body');
-                    console.log(pagination)
+                    // console.log(pagination)
+
+                    if(pagination.results === undefined){
+                        return
+                    }
+
+                    table_body.innerText = ''
                     pagination.results.forEach(item => {
                         const row = document.createElement('tr');
                         const title = document.createElement('td');
@@ -147,19 +210,95 @@
                         const analysis = document.createElement('td');
 
                         title.className += 'border px-4 py-2'
-                        sentiment.className += 'border px-4 py-2'
-                        analysis.className += 'border px-4 py-2'
+                        sentiment.className += 'border text-center font-semibold'
+                        analysis.className += 'border py-2 text-center'
+                        // 
+                        const title_html = document.createElement('button');
+                        title_html.innerText = item.title
+                        title_html.setAttribute('hx-get', `http://127.0.0.1:8000/comments/${item.id}/`);
+                        title_html.setAttribute('hx-trigger', 'click');
+                        title_html.setAttribute('hx-ext', 'json-enc');
+                        title_html.setAttribute('hx-swap', 'none');
+                        title_html.setAttribute('hx-on::after-request', 'handleCommentDetail(event)');
+                        title.appendChild(title_html)
+                        htmx.process(title_html); 
+                        // 
 
-                        title.innerText = item.title
-                        sentiment.innerText = '분석전'
-                        analysis.innerText = '분석'
+                        const sentiment_html = document.createElement('div');
+                        sentiment_html.className += ''
+                        if(item.sentiment === null){
+                            sentiment_html.innerText = '분석전'
+                        }else{
+                            if(item.sentiment.sentiment_type==='negative'){
+                                sentiment_html.innerText = '부정적'
+                                sentiment.className += ' bg-red-300'
+                            }else if(item.sentiment.sentiment_type==='positive'){
+                                sentiment_html.innerText = '긍정적'
+                                sentiment.className += ' bg-green-300'
+                            }else if(item.sentiment.sentiment_type==='neutral'){
+                                sentiment_html.innerText = '중립적'
+                            }else{
+                                sentiment_html.innerText = 'Unknown'
+                            }
+                        }
+                        sentiment.appendChild(sentiment_html)
+
+                        const analysis_html = document.createElement('button');
+                        analysis_html.className += 'bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded mx-2 my-2'
+                        analysis_html.innerText = "분석"
+                        analysis_html.setAttribute('hx-post', `http://127.0.0.1:8000/sentiments/`);
+                        analysis_html.setAttribute('hx-vals', `{"comment_id": ${item.id} }`);
+                        analysis_html.setAttribute('hx-trigger', 'click');
+                        analysis_html.setAttribute('hx-ext', 'json-enc');
+                        analysis_html.setAttribute('hx-swap', 'none');
+                        analysis.appendChild(analysis_html)
                         row.appendChild(title);
                         row.appendChild(sentiment);
                         row.appendChild(analysis);
                         
                         table_body.appendChild(row);
-                        // htmx.process(card);
+                        // htmx process
+                        htmx.process(analysis_html);
                     });
+                
+                    const prev_page_btn = document.getElementById('prev-page-btn');
+                    const next_page_btn = document.getElementById('next-page-btn');
+                    
+                    if(pagination.previous === null){
+                        prev_page_btn.classList.remove('bg-blue-500')
+                        prev_page_btn.classList.add('bg-gray-400')
+                        prev_page_btn.disabled = true;
+                        prev_page_btn.setAttribute('hx-get', '');
+                        htmx.process(prev_page_btn);  
+                    }else{
+                        prev_page_btn.classList.remove('bg-gray-400')
+                        prev_page_btn.classList.add('bg-blue-500')
+                        prev_page_btn.disabled = false;
+                        prev_page_btn.setAttribute('hx-get', `${pagination.previous}`);
+                        prev_page_btn.setAttribute('hx-trigger', 'click');
+                        prev_page_btn.setAttribute('hx-ext', 'json-enc');
+                        prev_page_btn.setAttribute('hx-swap', 'none');
+                        prev_page_btn.setAttribute('hx-on::after-request', 'handleComments(event)');
+                        htmx.process(prev_page_btn);     
+                    }
+
+                    if(pagination.next === null){
+                        next_page_btn.classList.remove('bg-blue-500')
+                        next_page_btn.classList.add('bg-gray-400')
+                        next_page_btn.disabled = true;
+                        next_page_btn.setAttribute('hx-get', '');
+                        htmx.process(next_page_btn);  
+                    }else{
+                        next_page_btn.classList.remove('bg-gray-400')
+                        next_page_btn.classList.add('bg-blue-500')
+                        next_page_btn.disabled = false;
+                        next_page_btn.setAttribute('hx-get', `${pagination.next}`);
+                        next_page_btn.setAttribute('hx-trigger', 'click');
+                        next_page_btn.setAttribute('hx-ext', 'json-enc');
+                        next_page_btn.setAttribute('hx-swap', 'none');
+                        next_page_btn.setAttribute('hx-on::after-request', 'handleComments(event)');
+                        htmx.process(next_page_btn);            
+                    }
                 }
             }
 
@@ -173,6 +312,38 @@
 
             function closeModal() {
                 document.getElementById('stock_modal').classList.add('hidden');
+                const table_body = document.getElementById('comment_table_body');
+                table_body.innerText = ''
+            }
+
+            function openCommentModal() {
+                document.getElementById('comment_modal').classList.remove('hidden');
+            }
+
+            function closeCommentModal() {
+                document.getElementById('comment_modal').classList.add('hidden');
+            }
+
+            function handleCommentDetail(event){
+                const sentiment_div = document.getElementById('sentiment');
+
+                if (event.detail.xhr.status == 200) {
+                    const response = JSON.parse(event.detail.xhr.response);
+                    console.log('handleCommentDetail => ', response)
+
+                    const comment_stock_name = document.getElementById('comment-stock-name');
+                    const comment_title = document.getElementById('comment-title');
+                    const comment_content = document.getElementById('comment-content');
+                    const sentiment_content = document.getElementById('sentiment-content');
+                    
+                    comment_stock_name.innerText = response.stock.name
+                    comment_title.innerText = response.title
+                    comment_content.innerText = response.content
+                    sentiment_content.innerText = response.sentiment.description
+                    openCommentModal()
+                }else{
+                    // sentiment_div.classList.add('hidden');
+                }
             }
         </script>
 </div>
