@@ -1,0 +1,43 @@
+{
+  "$schema": "https://www.krakend.io/schema/krakend.json",
+  "version": 3,
+  "name": "gateway",
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "port": 8080,
+  "debug_endpoint": false,
+  "echo_endpoint": false,
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "INFO",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true,
+      "format": "default",
+      "syslog_facility": "local3"
+    },
+    "telemetry/logstash": {
+      "enabled": false
+    }
+  },
+  "endpoints": [
+    {
+      "endpoint": "/stocks/",
+      "method": "GET",
+      "output_encoding": "fast-json",
+      "backend": [
+        {
+          "url_pattern": "/stocks/",
+          "encoding": "string",
+          "sd": "static",
+          "method": "GET",
+          "disable_host_sanitize": false,
+          "host": [
+            "http://127.0.0.1:8000"
+          ]
+        }
+      ]
+    }
+  ]
+}

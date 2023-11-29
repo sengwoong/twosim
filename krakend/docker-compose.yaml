@@ -1,0 +1,15 @@
+version: "3"
+services:
+  krakend:
+    image: devopsfaith/krakend:watch
+    volumes:
+      - ".:/etc/krakend"
+    ports:
+      - "8088:8080"
+    command: [ "run", "-dc", "krakend.json" ]
+    networks:
+      - testnet
+
+networks:
+  testnet:
+    external: true
